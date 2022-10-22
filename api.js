@@ -543,34 +543,27 @@ function event_msg_delete(username, password, msgid, callback)
 }
 
 
+
 const cnvStr = r=>r.replace(/\\n/, "\n");
 const cnvInt = r=>parseInt(r);
-const output_bool_Conv = r=>{return {"success": r}};
+const output_bool_Conv = r=>{return {"success": true, "result": r}};
 const output_object_Conv = r=>{
-    if (Object.keys(r).length===0) {
-        return {"success": false} 
-    } else {
-        var ret = {}
-        Object.keys(r).forEach(key=>{
-            ret[key]=r[key];
-        })
-        return  {"success": true, "data": ret} 
-    }
+    var ret = {}
+    Object.keys(r).forEach(key=>{
+        ret[key]=r[key];
+    })
+    return  {"success": true, "result": ret} 
 }
 const output_list_Conv = r=>{
-    if (r.length===0) {
-        return {"success": false} 
-    } else {
-        var ret1=[]
-        r.forEach(set=>{
-            var ret = {}
-            Object.keys(set).forEach(key=>{
-                ret[key]=set[key];
-            })
-            ret1.push(ret)
+    var ret1=[]
+    r.forEach(set=>{
+        var ret = {}
+        Object.keys(set).forEach(key=>{
+            ret[key]=set[key];
         })
-        return  {"success": true, "data": ret1} 
-    }
+        ret1.push(ret)
+    })
+    return  {"success": true, "result": ret1} 
 }
 
 exports.api_connector = {
