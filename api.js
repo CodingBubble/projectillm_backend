@@ -369,19 +369,16 @@ function event_create(username, password, groupid, eventname, eventdesc, date, c
 {
     eventname = convert_user_input(eventname);
     eventdesc = convert_user_input(eventdesc);
-    console.log(date)
     user_verify_id(username, password, (g, userid) => {
         if (!g) { callback({}); return; } 
         group_verify_member(userid, groupid, g2=>{
             if (!g2) { callback({}); return; }
             var query = `INSERT INTO events(creator, groupid, eventname, description, date) VALUES 
                         (${userid},${groupid},"${eventname}","${eventdesc}",FROM_UNIXTIME(${date}))`;
-            console.log(query)
             con.query(query, function (err, result) {
                 con.query("SELECT LAST_INSERT_ID()", function (err, res) {
                     if (err) { callback({}); return; } 
                     query = `INSERT INTO event_members(eventid, userid) VALUES (${res[0]["LAST_INSERT_ID()"]}, ${userid})`;
-                    console.log(query)
                     con.query(query, function (err, result) {
                         if (err)  { callback({}); return; } 
                         event_get_by_id(res[0]["LAST_INSERT_ID()"], callback)
