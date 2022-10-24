@@ -6,6 +6,7 @@ const requestListener = function (req, res) {
     res.setHeader('Content-Type', 'application/json');
     res.writeHead(200);
     var requestString = req.url;
+	console.log(requestString);
     requestString = decodeURI(requestString);
     requestString = requestString.substring(1);
     apply_user_inp(requestString, r=>res.end(r))
@@ -28,10 +29,13 @@ function apply_user_inp(inp, callback)
     try { inp_json = JSON.parse(inp)}
     catch (e) {callback_errmsg("JSON Parse Input Error", callback); return; }
     const command = inp_json["command"];
-    if(inp_json["args"].length!=api.api_connector[command]["args"].length) {
-        callback_errmsg(`The Function ${command} requires ${api.api_connector[command]["args"].length} Args! Got: ${inp_json["args"].length}`, callback);
-        return;
-    }
+	try {
+		if(inp_json["args"].length!=api.api_connector[command]["args"].length) {
+			callback_errmsg(`The Function ${command} requires ${api.api_connector[command]["args"].length} Args! Got: ${inp_json["args"].length}`, callback);
+			return;
+		}
+	}
+    catch (e) {callback_errmsg(`The Function ${command} does not exist`, callback); return; }
     var args = [];
   
     for (var i = 0; i<inp_json["args"].length; i++) {

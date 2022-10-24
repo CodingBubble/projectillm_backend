@@ -38,11 +38,25 @@ function user_verify_id(username, password, callback) {
       });
 }
 
+function user_get_by_name(username, password, callback) {
+    username = convert_user_input(username);
+    password = convert_user_input(password);
+    var query = 'SELECT * FROM `users` WHERE username="'+username+'"';
+    con.query(query, function (err, result) {
+        if (err) throw err;
+        if (result.length == 0) { callback(-1); return; }
+		if (result[0]["password"]!=password) { callback(-1); return; }
+        callback(result[0]["id"]);
+     });
+}
+
+
 function user_create(username, password, callback) {
     username = convert_user_input(username);
     password = convert_user_input(password);
     var query = `INSERT INTO users( username, password) VALUES ("${username}","${password}")`;
     con.query(query, function (err, result) {
+		if (err) { callback({}); return; }
         user_verify_id(username, password, (g, k)=>user_get_by_id(k,callback));
       });
 }
@@ -205,7 +219,7 @@ function group_create(username, password, groupname, groupdesc, callback) {
                 query = `INSERT INTO group_members(groupid, userid) VALUES (${groupid[0]["LAST_INSERT_ID()"]}, ${userid});`;
                 con.query(query, (err, result)=>{
                     if (err) throw err;
-                    groud_get_by_id(groupid, callback)
+                    group_get_by_id(groupid[0]["LAST_INSERT_ID()"], callback)
                 })
             })
         });
@@ -376,6 +390,7 @@ function event_create(username, password, groupid, eventname, eventdesc, date, c
             var query = `INSERT INTO events(creator, groupid, eventname, description, date) VALUES 
                         (${userid},${groupid},"${eventname}","${eventdesc}",FROM_UNIXTIME(${date}))`;
             con.query(query, function (err, result) {
+				if (err) { callback({}); return; } 
                 con.query("SELECT LAST_INSERT_ID()", function (err, res) {
                     if (err) { callback({}); return; } 
                     query = `INSERT INTO event_members(eventid, userid) VALUES (${res[0]["LAST_INSERT_ID()"]}, ${userid})`;
@@ -541,9 +556,10 @@ function event_msg_delete(username, password, msgid, callback)
 
 
 
-const cnvStr = r=>r.replace(/\\n/, "\n");
+const cnvStr = r=>r;
 const cnvInt = r=>parseInt(r);
 const output_bool_Conv = r=>{return {"success": true, "result": r}};
+const output_int_Conv = r=>{return {"success": true, "result":  r}};
 const output_object_Conv = r=>{
     var ret = {}
     Object.keys(r).forEach(key=>{
@@ -564,6 +580,7 @@ const output_list_Conv = r=>{
 }
 
 exports.api_connector = {
+	user_get_by_name: {args: [cnvStr, cnvStr], fn: user_get_by_name, out:output_int_Conv},
     user_get_by_id: {args: [cnvInt], fn: user_get_by_id, out:output_object_Conv},
     group_get_by_id: {args: [cnvInt], fn: group_get_by_id, out:output_object_Conv},
     event_get_by_id: {args: [cnvInt], fn: event_get_by_id, out:output_object_Conv},
