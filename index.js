@@ -13,10 +13,8 @@ const requestListener = function (req, res) {
 };
 
 const server = http.createServer(requestListener);
-server.listen(server_settings.port, server_settings.host, () => {
-    console.log(`Server is running on http://${server_settings.host}:${server_settings.port}`);
-});
-
+server.listen(server_settings.port);
+console.log(`Server is running on ${server_settings.port}`);
 
 function callback_errmsg(message, callback)
 {
