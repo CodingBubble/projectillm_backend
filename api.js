@@ -1,8 +1,6 @@
 const mysql = require("mysql");
 const settings = require("./api_conn_settings.json")
-
-var con = mysql.createConnection(settings);
-
+const dns = require('dns')
 
 convert_user_input = (str)=>str.replace(/\"/g, "\\\"");
 
@@ -616,7 +614,11 @@ exports.api_connector = {
 }
 
 
-con.connect(function(err) {
+dns.lookup(settings["host"], function(err, result) {
+  console.log(result)
+  settings["host"] = result
+  var con = mysql.createConnection(settings);
+  con.connect(function(err) {
     if (err) throw err; 
     con.query("USE projectillm", function (err, result) {
         if (err) throw err;
@@ -637,3 +639,6 @@ con.connect(function(err) {
       //  group_msg_delete("Jakob", "Test1234", 1, console.log);
     });
   });
+})
+
+
