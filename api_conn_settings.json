@@ -2,5 +2,6 @@
 	"host": "rinke1.synology.me",
 	"user": "projectillm",
 	"password": "jM5]e7rp@7",
-	"db": "projectillm"
+	"db": "projectillm",
+	"msg_load_num": 20
 }

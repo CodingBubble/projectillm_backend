@@ -276,6 +276,22 @@ function group_load_msgs(username, password, groupid, callback)
     })
 }
 
+function group_load_msgs_gen(username, password, groupid, part, callback)
+{
+    user_verify_id(username, password, (g, userid)=>{
+        if(!g) { callback([]); return; }
+        group_verify_member(userid, groupid, m=>{
+            if(!m) { callback([]); return; }
+            var query = `SELECT group_messages.*, username FROM group_messages, users WHERE userid=users.id and groupid=${groupid} 
+                        ORDER by date DESC LIMIT ${part*settings["msg_load_num"]}, ${(settings["msg_load_num"])}`;
+            con.query(query, function (err, result) {
+                if (err) { callback(false); return; } 
+                callback(result);
+            });
+        })
+    })
+}
+
 function group_msg_load_by_id(msgid, callback)
 {
     var query = `SELECT group_messages.*, username FROM group_messages, users WHERE userid=users.id and group_messages.id=${msgid};`
@@ -510,6 +526,22 @@ function event_load_msgs(username, password, eventid, callback)
     })
 }
 
+function event_load_msgs_gen(username, password, eventid, part, callback)
+{
+    user_verify_id(username, password, (g, userid)=>{
+        if(!g) { callback([]); return; }
+        event_group_verify_member(userid, eventid, m=>{
+            if(!m) { callback([]); return; }
+            var query = `SELECT event_messages.*, username FROM event_messages, users WHERE userid=users.id and eventid=${eventid} 
+                            ORDER by date DESC LIMIT ${part*settings["msg_load_num"]}, ${(settings["msg_load_num"])}`;
+            con.query(query, function (err, result) {
+                if (err) { callback(false); return; } 
+                callback(result);
+            });
+        })
+    })
+}
+
 function event_msg_load_by_id(msgid, callback)
 {
     var query = `SELECT event_messages.*, username FROM event_messages, users WHERE userid=users.id and event_messages.id=${msgid} `
@@ -598,6 +630,7 @@ exports.api_connector = {
     group_delete:  {args: [cnvStr, cnvStr, cnvInt], fn: group_delete, out:output_bool_Conv},
     group_load_msgs:  {args: [cnvStr, cnvStr, cnvInt], fn: group_load_msgs, out:output_list_Conv},
     group_msg_send:  {args: [cnvStr, cnvStr, cnvInt, cnvStr], fn: group_msg_send, out:output_bool_Conv},
+    group_load_msgs_gen:  {args: [cnvStr, cnvStr, cnvInt, cnvInt], fn: group_load_msgs_gen, out:output_list_Conv},
     group_msg_delete:  {args: [cnvStr, cnvStr, cnvInt], fn: group_msg_delete, out:output_bool_Conv},
     group_get_events_active:  {args: [cnvStr, cnvStr, cnvInt], fn: group_get_events_active, out:output_list_Conv},
     group_get_events_achieved: {args: [cnvStr, cnvStr, cnvInt], fn: group_get_events_achieved, out:output_list_Conv},
@@ -608,37 +641,35 @@ exports.api_connector = {
     event_get_members:  {args: [cnvStr, cnvStr, cnvInt], fn: event_get_members, out:output_list_Conv},
     event_join:  {args: [cnvStr, cnvStr, cnvInt], fn: event_join, out:output_bool_Conv},
     event_leave:  {args: [cnvStr, cnvStr, cnvInt], fn: event_leave, out:output_bool_Conv},
-    event_load_msgs:  {args: [cnvStr, cnvStr, cnvInt], fn: group_load_msgs, out:output_list_Conv},
+    event_load_msgs:  {args: [cnvStr, cnvStr, cnvInt], fn: event_load_msgs, out:output_list_Conv},
+    event_load_msgs_gen:  {args: [cnvStr, cnvStr, cnvInt, cnvInt], fn: event_load_msgs_gen, out:output_list_Conv},
     event_msg_send:  {args: [cnvStr, cnvStr, cnvInt, cnvStr], fn: event_msg_send, out:output_bool_Conv},
     event_msg_delete:  {args: [cnvStr, cnvStr, cnvInt], fn: event_msg_delete, out:output_bool_Conv},
 }
 
 
-dns.lookup(settings["host"], function(err, result) {
-  console.log(result)
-  settings["host"] = result
-  var con = mysql.createConnection(settings);
-  con.connect(function(err) {
-    if (err) throw err; 
-    con.query("USE projectillm", function (err, result) {
-        if (err) throw err;
-        console.log("Connected!");
-        //group_create("Jakob", "Test1234", "Testgruppe 2", "Platzhalter", (res,p2)=>{console.log(res);console.log(p2)})
-        //group_create_key("Jakob", "Test1234", 1, 10, r=>console.log(r))
-        //user_use_invitation_code("Jakob", "Test1234", "ksngl", c=>console.log(c))
-        //event_delete("Jakob", "Test1234", 1, c=>console.log(c))
-        //group_kick("Luca", "Test4321", 1, 1, c=>console.log(c))
-        //group_leave("Luca", "Test4321", 1, c=>console.log(c))
-        //event_join("Jakob", "Test1234", 2, c=>console.log(c))
-        //event_leave("Luca", "Test4321", 2, console.log)
-       // event_load_msgs("Jakob", "Test1234", 2, console.log)
-        //event_msg_send_event("Jakob", "Test1234", 2, "Test", console.log)
-       // event_msg_delete("Jakob", "Test1234", 3, console.log)
-       //group_msg_send("Jakob", "Test1234", 1, "Testnachricht2", console.log);
-      // group_load_msgs("Jakob", "Test1234", 1, console.log);
-      //  group_msg_delete("Jakob", "Test1234", 1, console.log);
-    });
-  });
-})
+
+var con = mysql.createConnection(settings);
+con.connect(function(err) {
+if (err) throw err; 
+con.query("USE projectillm", function (err, result) {
+    if (err) throw err;
+    console.log("Connected!");
+    //group_create("Jakob", "Test1234", "Testgruppe 2", "Platzhalter", (res,p2)=>{console.log(res);console.log(p2)})
+    //group_create_key("Jakob", "Test1234", 1, 10, r=>console.log(r))
+    //user_use_invitation_code("Jakob", "Test1234", "ksngl", c=>console.log(c))
+    //event_delete("Jakob", "Test1234", 1, c=>console.log(c))
+    //group_kick("Luca", "Test4321", 1, 1, c=>console.log(c))
+    //group_leave("Luca", "Test4321", 1, c=>console.log(c))
+    //event_join("Jakob", "Test1234", 2, c=>console.log(c))
+    //event_leave("Luca", "Test4321", 2, console.log)
+    // event_load_msgs("Jakob", "Test1234", 2, console.log)
+    //event_msg_send_event("Jakob", "Test1234", 2, "Test", console.log)
+    // event_msg_delete("Jakob", "Test1234", 3, console.log)
+    //group_msg_send("Jakob", "Test1234", 1, "Testnachricht2", console.log);
+    // group_load_msgs("Jakob", "Test1234", 1, console.log);
+    //  group_msg_delete("Jakob", "Test1234", 1, console.log);
+});
+});
 
 
