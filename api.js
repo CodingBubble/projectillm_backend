@@ -38,6 +38,8 @@ exports.api_connector = {
     user_get_by_id: {args: [cnvInt], fn:  user_get_by_id, out:output_object_Conv},
     group_get_by_id: {args: [cnvInt], fn:  group_get_by_id, out:output_object_Conv},
     event_get_by_id: {args: [cnvInt], fn:  event_get_by_id, out:output_object_Conv},
+    vote_get_by_id: {args: [cnvInt], fn:  vote_get_by_id, out:output_object_Conv},
+    vote_option_get_by_id: {args: [cnvInt], fn:  vote_option_get_by_id, out:output_object_Conv},
     user_verify: {args: [cnvStr, cnvStr], fn: user_verify, out:output_bool_Conv},
     user_create:  {args: [cnvStr, cnvStr], fn: user_create, out:output_object_Conv},
     user_change_password: {args: [cnvStr, cnvStr, cnvStr], fn: user_change_password, out:output_bool_Conv},
@@ -69,6 +71,19 @@ exports.api_connector = {
     event_load_msgs_gen:  {args: [cnvStr, cnvStr, cnvInt, cnvInt], fn: event_load_msgs_gen, out:output_list_Conv},
     event_msg_send:  {args: [cnvStr, cnvStr, cnvInt, cnvStr], fn: event_msg_send, out:output_bool_Conv},
     event_msg_delete:  {args: [cnvStr, cnvStr, cnvInt], fn: event_msg_delete, out:output_bool_Conv},
+    event_load_votes:  {args: [cnvStr, cnvStr, cnvInt], fn: event_load_votes, out:output_list_Conv},
+    vote_create:  {args: [cnvStr, cnvStr, cnvInt, cnvStr], fn: vote_create, out:output_object_Conv},
+    vote_delete:  {args: [cnvStr, cnvStr, cnvInt], fn: vote_delete, out:output_bool_Conv},
+    vote_update:  {args: [cnvStr, cnvStr, cnvInt, cnvStr], fn: vote_update, out:output_bool_Conv},
+    vote_get_count:  {args: [cnvStr, cnvStr, cnvInt], fn: vote_get_count, out:output_int_Conv},
+    vote_load_options:  {args: [cnvStr, cnvStr, cnvInt], fn: vote_load_options, out:output_list_Conv},
+    vote_user_get_votes:  {args: [cnvStr, cnvStr, cnvInt], fn: vote_user_get_votes, out:output_list_Conv},
+    vote_option_create:  {args: [cnvStr, cnvStr, cnvInt, cnvStr], fn: vote_option_create, out:output_object_Conv},
+    vote_option_delete:  {args: [cnvStr, cnvStr, cnvInt], fn: vote_option_delete, out:output_bool_Conv},
+    vote_option_update:  {args: [cnvStr, cnvStr, cnvInt, cnvStr], fn: vote_option_update, out:output_bool_Conv},
+    vote_option_get_count:  {args: [cnvStr, cnvStr, cnvInt], fn: vote_option_get_count, out:output_int_Conv},
+    vote_user_add_vote:  {args: [cnvStr, cnvStr, cnvInt], fn: vote_user_add_vote, out:output_bool_Conv},
+    vote_user_remove_vote:  {args: [cnvStr, cnvStr, cnvInt], fn: vote_user_remove_vote, out:output_bool_Conv},
 }
 
 
