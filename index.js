@@ -1,28 +1,53 @@
 const api = require("./api.js");
 const server_settings = require("./server_setting.json")
 const http = require("http");
+const fs = require("fs");
+const express = require("express")
+const testHTML = fs.readFileSync("test.html")
+const fileUpload = require('express-fileupload');
+
+const app = express();
+app.use(fileUpload());
 
 const requestListener = function (req, res) {
-    res.setHeader('Content-Type', 'application/json');
-    res.writeHead(200);
-    var requestString = req.url;
-	console.log(requestString);
-    requestString = decodeURI(requestString);
-    requestString = requestString.substring(1);
-    apply_user_inp(requestString, r=>res.end(r))
+    apply_user_inp(req, r=>res.end(r), res)
 };
+
+app.get("", (req, res)=>res.end(testHTML))
+const postListener = function (req, res) {
+    var inp = req.url;
+    inp = decodeURI(inp);
+    console.log(inp)
+    d = inp.split("?")[1].split("&")
+    try {
+        api.upload_file(d[0], d[1], d[2], req.files["image"]["data"], c=>{
+            console.log(c)
+            res.end("{success:true, id:"+c+"}")
+        })
+    } catch(e) {
+        console.log(e);
+        res.end("{'success':false, 'err':1}")
+    }
+};
+
+app.post("/upload_file", postListener)
 
 const server = http.createServer(requestListener);
 server.listen(server_settings.port);
-console.log(`Server is running on ${server_settings.port}`);
+app.listen(server_settings.img_port)
+console.log(`Server is running on ${server_settings.port} and ${server_settings.img_port}`);
 
 function callback_errmsg(message, callback)
 {
     callback(JSON.stringify({"success": false, "Error": message}));
 }
 
-function apply_user_inp(inp, callback)
+function apply_user_inp(req, callback, res)
 {
+    var inp = req.url;
+	console.log(inp);
+    inp = decodeURI(inp);
+    inp = inp.substring(1);
     var inp_json;
     try { inp_json = JSON.parse(inp)}
     catch (e) {callback_errmsg("JSON Parse Input Error", callback); return; }
@@ -33,19 +58,32 @@ function apply_user_inp(inp, callback)
 			return;
 		}
 	}
-    catch (e) {callback_errmsg(`The Function ${command} does not exist`, callback); return; }
+    catch (e) {
+        callback_errmsg(`The Function ${command} does not exist`, callback);
+        return; 
+    }
     var args = [];
-  
     for (var i = 0; i<inp_json["args"].length; i++) {
         try {
             args.push(api.api_connector[command]["args"][i](inp_json["args"][i]));
-        } catch {
+        } catch (e) {
             callback_errmsg(`Error parsing Argument ${i}!`, callback);
-            return;
         }
     }
     args.push(result=>{
+        if (api.api_connector[command]["img_ret"]) {
+            try {
+                res.setHeader('Content-Type', 'image');
+                res.writeHead(200);
+                callback(result);
+            } catch(e) {
+                console.log(e);
+            }
+            return;
+        }
         try {
+            res.setHeader('Content-Type', 'application/json');
+            res.writeHead(200);
             callback(JSON.stringify(api.api_connector[command]["out"](result)))
         } catch(e) {
             console.log(e);

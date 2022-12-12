@@ -5,7 +5,7 @@ eval(fs.readFileSync('./db_fncs/user.js')+'');
 eval(fs.readFileSync("./db_fncs/group.js")+'');
 eval(fs.readFileSync("./db_fncs/event.js")+'');
 eval(fs.readFileSync("./db_fncs/vote.js")+'');
-
+eval(fs.readFileSync("./db_fncs/files.js")+'');
 
 convert_user_input = (str)=>str.replace(/\"/g, "\\\"");
 
@@ -84,8 +84,11 @@ exports.api_connector = {
     vote_option_get_count:  {args: [cnvStr, cnvStr, cnvInt], fn: vote_option_get_count, out:output_int_Conv},
     vote_user_add_vote:  {args: [cnvStr, cnvStr, cnvInt], fn: vote_user_add_vote, out:output_bool_Conv},
     vote_user_remove_vote:  {args: [cnvStr, cnvStr, cnvInt], fn: vote_user_remove_vote, out:output_bool_Conv},
+    delete_file: {args: [cnvStr, cnvStr, cnvInt], fn: delete_file, out:output_bool_Conv},
+    access_file: {args: [cnvStr, cnvStr, cnvInt], fn: access_file, out:output_bool_Conv, img_ret:true}
 }
 
+exports.upload_file = upload_file;
 
 
 var con = mysql.createConnection(settings);
