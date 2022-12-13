@@ -221,7 +221,7 @@ function event_load_votes(username, password, eventid, callback)
             if(!m) { callback([]); return; }
             var query = `SELECT * FROM votes WHERE eventid=${eventid}`;
             con.query(query, function (err, result) {
-                if (err) { callback(false); return; } 
+                if (err) { callback([]); return; } 
                 callback(result);
             });
         })

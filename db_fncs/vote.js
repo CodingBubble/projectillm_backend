@@ -55,7 +55,7 @@ function vote_update(username, password, voteid, title, callback)
 
 function vote_delete(username, password, voteid, callback)
 {
-    vote_user_is_admin(username, password, eventid, g=>{
+    vote_user_is_admin(username, password, voteid, g=>{
         if(!g) { callback(false); return; }
         var query = `DELETE FROM votes WHERE id=${voteid}`;
         con.query(query, function (err, result) {
@@ -136,7 +136,7 @@ function vote_option_update(username, password, title, optionid, callback)
 
 function vote_option_delete(username, password, voteid, callback)
 {
-    vote_user_is_admin(username, password, eventid, g=>{
+    vote_user_is_admin(username, password, voteid, g=>{
         if(!g) { callback(false); return; }
         var query = `DELETE FROM vote_options WHERE id=${voteid}`;
         con.query(query, function (err, result) {

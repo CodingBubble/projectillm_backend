@@ -6,6 +6,8 @@ eval(fs.readFileSync("./db_fncs/group.js")+'');
 eval(fs.readFileSync("./db_fncs/event.js")+'');
 eval(fs.readFileSync("./db_fncs/vote.js")+'');
 eval(fs.readFileSync("./db_fncs/files.js")+'');
+eval(fs.readFileSync("./db_fncs/lists.js")+'');
+
 
 convert_user_input = (str)=>str.replace(/\"/g, "\\\"");
 
@@ -85,7 +87,12 @@ exports.api_connector = {
     vote_user_add_vote:  {args: [cnvStr, cnvStr, cnvInt], fn: vote_user_add_vote, out:output_bool_Conv},
     vote_user_remove_vote:  {args: [cnvStr, cnvStr, cnvInt], fn: vote_user_remove_vote, out:output_bool_Conv},
     delete_file: {args: [cnvStr, cnvStr, cnvInt], fn: delete_file, out:output_bool_Conv},
-    access_file: {args: [cnvStr, cnvStr, cnvInt], fn: access_file, out:output_bool_Conv, img_ret:true}
+    access_file: {args: [cnvStr, cnvStr, cnvInt], fn: access_file, out:output_bool_Conv, img_ret:true},
+    event_list_load: {args: [cnvStr, cnvStr, cnvInt], fn: event_list_load, out:output_list_Conv},
+    event_list_add_item: {args: [cnvStr, cnvStr, cnvInt, cnvStr], fn: event_list_add_item, out:output_object_Conv},
+    event_list_remove_item: {args: [cnvStr, cnvStr, cnvInt], fn: event_list_remove_item, out:output_bool_Conv},
+    event_list_set_user: {args: [cnvStr, cnvStr, cnvInt], fn: event_list_set_user, out:output_bool_Conv},
+    event_list_reset_user: {args: [cnvStr, cnvStr, cnvInt], fn: event_list_reset_user, out:output_bool_Conv},
 }
 
 exports.upload_file = upload_file;
