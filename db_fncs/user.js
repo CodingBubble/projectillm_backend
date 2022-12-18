@@ -113,3 +113,15 @@ function user_use_invitation_code(username, password, code, callback)
         });
     });
 }
+
+function user_get_all_active_joined_events(username, password, callback) {
+    code = convert_user_input(code);
+    user_verify_id(username, password, (g, userid)=>{
+        if (!g) { callback([]); return; }
+        var query = `SELECT * FROM events WHERE id IN (SELECT eventid FROM event_members WHERE userid=${userid}) and date>(NOW() - INTERVAL 1 DAY) ORDER BY date ASC `;
+        con.query(query, function (err, result) {
+            if (err) throw err;
+            callback(result);
+        })
+    });
+}

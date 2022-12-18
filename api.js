@@ -48,6 +48,7 @@ exports.api_connector = {
     user_delete:  {args: [cnvStr, cnvStr], fn: user_delete, out:output_bool_Conv},
     user_get_groups:  {args: [cnvStr, cnvStr], fn: user_get_groups, out:output_list_Conv},
     user_use_invitation_code:  {args: [cnvStr, cnvStr, cnvStr], fn: user_use_invitation_code, out:output_bool_Conv},
+    user_get_all_active_joined_events:  {args: [cnvStr, cnvStr], fn: user_get_all_active_joined_events, out:output_list_Conv},
     group_user_is_admin:  {args: [cnvStr, cnvStr, cnvInt], fn: group_user_is_admin, out:output_bool_Conv},
     group_create_key:  {args: [cnvStr, cnvStr, cnvInt, cnvInt], fn: group_create_key, out:output_object_Conv},
     group_leave:  {args: [cnvStr, cnvStr, cnvInt], fn: group_leave, out:output_bool_Conv},
@@ -94,6 +95,7 @@ exports.api_connector = {
     event_list_set_user: {args: [cnvStr, cnvStr, cnvInt], fn: event_list_set_user, out:output_bool_Conv},
     event_list_reset_user: {args: [cnvStr, cnvStr, cnvInt], fn: event_list_reset_user, out:output_bool_Conv},
 }
+
 
 exports.upload_file = upload_file;
 
