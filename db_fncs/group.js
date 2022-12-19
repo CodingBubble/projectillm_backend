@@ -206,6 +206,7 @@ function group_msg_send(username, password, groupid, msg, callback)
 function group_msg_delete(username, password, msgid, callback)
 {
     user_verify_id(username, password, (g, userid)=>{
+        if(!g) {callback(false); return;}
         group_msg_load_by_id(msgid, c=>{
             if(!c) {callback(false); return;}
             if(c["userid"]!=userid) { callback(false); return; }

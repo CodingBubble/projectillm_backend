@@ -201,6 +201,7 @@ function event_msg_send(username, password, eventid, msg, callback)
 function event_msg_delete(username, password, msgid, callback)
 {
     user_verify_id(username, password, (g, userid)=>{
+        if(!g) {callback(false); return;}
         event_msg_load_by_id(msgid, c=>{
             if(!c) {callback(false); return;}
             if(c["userid"]!=userid) { callback(false); return; }
@@ -228,3 +229,71 @@ function event_load_votes(username, password, eventid, callback)
     })
 }
 
+
+
+
+
+
+function event_load_announcements(username, password, eventid, callback)
+{
+    user_verify_id(username, password, (g, userid)=>{
+        if(!g) { callback([]); return; }
+        event_group_verify_member(userid, eventid, m=>{
+            if(!m) { callback([]); return; }
+            var query = `SELECT * FROM event_announcements WHERE eventid=${eventid} ORDER by date DESC`;
+            con.query(query, function (err, result) {
+                if (err) { callback(false); return; } 
+                callback(result);
+            });
+        })
+    })
+}
+
+function event_load_announcements_gen(username, password, eventid, part, callback)
+{
+    user_verify_id(username, password, (g, userid)=>{
+        if(!g) { callback([]); return; }
+        event_group_verify_member(userid, eventid, m=>{
+            if(!m) { callback([]); return; }
+            var query = `SELECT * FROM event_announcements WHERE eventid=${eventid} 
+                            ORDER by date DESC LIMIT ${part*settings["msg_load_num"]}, ${(settings["msg_load_num"])}`;
+            con.query(query, function (err, result) {
+                if (err) { callback(false); return; } 
+                callback(result);
+            });
+        })
+    })
+}
+
+function event_announcement_send(username, password, eventid, msg, callback)
+{
+    msg = convert_user_input(msg);
+    user_verify_id(username, password, (g, userid)=>{
+        if(!g) { callback({}); return; }
+        event_user_is_admin(userid, eventid, f=>{
+            if(!f) { callback({}); return; }
+            var query = `INSERT INTO event_announcements(eventid, text, date) VALUES (${eventid},"${msg}",NOW())`;
+            con.query(query, function (err, result) {
+                if (err) { callback({}); return; } 
+                con.query("SELECT LAST_INSERT_ID();", (err, msgid)=>{
+                    if (err) throw err;
+                    event_msg_load_by_id(msgid[0]["LAST_INSERT_ID()"], callback)
+                });
+            });
+        })
+    })
+}
+
+function event_announcement_delete(username, password, msgid, callback)
+{
+    user_verify_id(username, password, (g, userid)=>{
+        if(!g) {callback(false); return;}
+        event_user_is_admin(userid, eventid, f=>{
+            if(!f) {callback(false); return;}
+            var query = `DELETE FROM event_announcements WHERE id=${msgid}`
+            con.query(query, function (err, result) {
+                callback(err==undefined)
+            })
+        });
+    });
+}
