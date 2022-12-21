@@ -7,7 +7,7 @@ eval(fs.readFileSync("./db_fncs/event.js")+'');
 eval(fs.readFileSync("./db_fncs/vote.js")+'');
 eval(fs.readFileSync("./db_fncs/files.js")+'');
 eval(fs.readFileSync("./db_fncs/lists.js")+'');
-
+eval(fs.readFileSync("./db_fncs/splid.js")+'');
 
 convert_user_input = (str)=>str.replace(/\"/g, "\\\"");
 
@@ -98,6 +98,13 @@ exports.api_connector = {
     event_list_remove_item: {args: [cnvStr, cnvStr, cnvInt], fn: event_list_remove_item, out:output_bool_Conv},
     event_list_set_user: {args: [cnvStr, cnvStr, cnvInt], fn: event_list_set_user, out:output_bool_Conv},
     event_list_reset_user: {args: [cnvStr, cnvStr, cnvInt], fn: event_list_reset_user, out:output_bool_Conv},
+    transaction_create:  {args: [cnvStr, cnvStr, cnvInt, cnvInt, cnvInt,cnvStr, cnvInt], fn: transaction_create, out:output_object_Conv},
+    transaction_delete:  {args: [cnvStr, cnvStr, cnvInt], fn: transaction_delete, out:output_bool_Conv},
+    transactions_get_of:  {args: [cnvStr, cnvStr], fn: transactions_get_of, out:output_list_Conv},
+    transactions_get_in:  {args: [cnvStr, cnvStr, cnvInt], fn: transactions_get_in, out:output_list_Conv},
+    transactions_get_between:  {args: [cnvStr, cnvStr, cnvInt], fn: transactions_get_between, out:output_list_Conv},
+    transactions_get_of_in:  {args: [cnvStr, cnvStr, cnvInt, cnvInt], fn: transactions_get_of_in, out:output_list_Conv},
+    transactions_get_between_in:  {args: [cnvStr, cnvStr, cnvInt, cnvInt, cnvInt], fn: transactions_get_between_in, out:output_list_Conv},
 }
 
 
