@@ -82,7 +82,7 @@ function apply_user_inp(req, callback, res)
             return;
         }
         try {
-            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
             res.writeHead(200);
             callback(JSON.stringify(api.api_connector[command]["out"](result)))
         } catch(e) {

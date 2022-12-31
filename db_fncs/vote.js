@@ -106,6 +106,12 @@ function vote_option_get_by_id(voteoptionid, callback)
     });
 }
 
+function vote_option_user_is_admin(username, password, voteid, callback)
+{
+    vote_option_get_by_id(voteid, f=>{
+        vote_user_is_admin(username, password, f["voteid"], callback)
+    })
+}
 function vote_option_create(username, password, voteid, title, callback)
 {
     title = convert_user_input(title);
@@ -124,7 +130,7 @@ function vote_option_create(username, password, voteid, title, callback)
 
 function vote_option_update(username, password, title, optionid, callback)
 {
-    vote_user_is_admin(username, password, eventid, g=>{
+    vote_option_user_is_admin(username, password, eventid, g=>{
         if(!g) { callback(false); return; }
         var query = `UPDATE vote_options SET title="${title}" WHERE id=${optionid}`;
         con.query(query, function (err, result) {
@@ -136,7 +142,7 @@ function vote_option_update(username, password, title, optionid, callback)
 
 function vote_option_delete(username, password, voteid, callback)
 {
-    vote_user_is_admin(username, password, voteid, g=>{
+    vote_option_user_is_admin(username, password, voteid, g=>{
         if(!g) { callback(false); return; }
         var query = `DELETE FROM vote_options WHERE id=${voteid}`;
         con.query(query, function (err, result) {

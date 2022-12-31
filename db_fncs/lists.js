@@ -48,7 +48,7 @@ function event_list_add_item(username, password, eventid, title, callback)
 }
 
 function event_list_remove_item(username, password, id, callback) {
-    vote_user_is_admin(username, password, id, g=>{
+    item_user_is_admin(username, password, id, g=>{
         if(!g) { callback(false); return; }
         var query = `DELETE FROM list_items WHERE id=${id}`;
         con.query(query, function (err, result) {
