@@ -107,7 +107,7 @@ function user_use_invitation_code(username, password, code, callback)
                 query = `INSERT INTO group_members(groupid,userid) VALUES (${groupid}, ${userid})` 
                 con.query(query, function (err, result) {
                     if (err) throw err;
-                    callback(true)
+                    group_get_by_id(groupid, callback)
                 })
             })          
         });

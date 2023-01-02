@@ -17,7 +17,7 @@ function group_create_key(username, password, groupid, days, callback)
 {
     group_user_is_admin(username, password, groupid, g=> {
         if (!g) { callback({}); return; }
-        let r = (Math.random() + 1).toString(36).substring(7);
+        let r = (Math.random() + 1).toString(36).substring(2);
         var query = `INSERT INTO group_invite_keys (groupid, code, exp_date) VALUES (${groupid},"${r}",NOW()+INTERVAL ${days} DAY)` ;
         con.query(query, function (err, result) {
             if (err) throw err;

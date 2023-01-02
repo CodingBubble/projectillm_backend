@@ -45,8 +45,8 @@ function callback_errmsg(message, callback)
 function apply_user_inp(req, callback, res)
 {
     var inp = req.url;
+    inp = decodeURIComponent(inp);
 	console.log(inp);
-    inp = decodeURI(inp);
     inp = inp.substring(1);
     var inp_json;
     try { inp_json = JSON.parse(inp)}
