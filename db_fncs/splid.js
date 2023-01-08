@@ -40,14 +40,24 @@ function transaction_create(username, password, userid1, userid2, balance, title
     });
 }
 
+function transaction_is_group_member(userid, tansid, callback)
+{
+    transaction_get_by_id(tansid, trans=>{
+		group_verify_member(userid, trans["groupid"], callback); 
+	})
+}
+
 function transaction_delete(username, password, transactionid, callback) {
-    group_user_is_admin(username, password, transactionid, isadmin => {
-        if (!isadmin) {callback(false); return;}
-        var query = "DELETE FROM transactions WHERE id="+transactionid;
-        con.query(query, function (err, result) {
-            if (err) throw err;
-            callback(true);
-        });
+    user_verify_id(username, password, (g, userid) => {
+		if (!g) { console.log("E1"); callback([]); return; } 
+		transaction_is_group_member(userid, transactionid, k=>{
+			if (!k) {callback(false); return;}
+			var query = "DELETE FROM transactions WHERE id="+transactionid;
+			con.query(query, function (err, result) {
+				if (err) throw err;
+				callback(true);
+			});
+		})
     })       
 }
 
@@ -93,7 +103,7 @@ function transactions_get_between(username, password, userid2, callback){
     user_verify_id(username, password, (g, userid1) => {
         if (!g) { console.log("E1"); callback([]); return; } 
         [userid1, userid2, factor] = order_ids(userid1, userid2, 1);
-        var query = `SELECT * FROM transactions WHERE (userid1=${userid1} or userid2=${userid2}) ORDER BY id DESC`;
+        var query = `SELECT * FROM transactions WHERE (userid1=${userid1} and userid2=${userid2}) ORDER BY id DESC`;
         con.query(query, function (err, result) {
             if (err) throw err;
             result.forEach(element => {
@@ -133,7 +143,7 @@ function transactions_get_between_in(username, password, userid1, userid2, group
         group_verify_member(userid, groupid, c=>{
             if (!c) { callback([]); return; } 
             [userid1, userid2, factor] = order_ids(userid1, userid2, 1);
-            var query = `SELECT * FROM transactions WHERE (userid1=${userid1} or userid2=${userid2}) and groupid=${groupid} 
+            var query = `SELECT * FROM transactions WHERE (userid1=${userid1} and userid2=${userid2}) and groupid=${groupid} 
                                 ORDER BY id DESC`;
             con.query(query, function (err, result) {
                 if (err) throw err;

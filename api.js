@@ -14,6 +14,7 @@ convert_user_input = (str)=>str.replace(/\"/g, "\\\"");
 
 const cnvStr = r=>r;
 const cnvInt = r=>parseInt(r);
+const cnvDouble = r=>parseFloat(r);
 const output_bool_Conv = r=>{return {"success": true, "result": r}};
 const output_int_Conv = r=>{return {"success": true, "result":  r}};
 const output_object_Conv = r=>{
@@ -99,7 +100,7 @@ exports.api_connector = {
     event_list_remove_item: {args: [cnvStr, cnvStr, cnvInt], fn: event_list_remove_item, out:output_bool_Conv},
     event_list_set_user: {args: [cnvStr, cnvStr, cnvInt], fn: event_list_set_user, out:output_bool_Conv},
     event_list_reset_user: {args: [cnvStr, cnvStr, cnvInt], fn: event_list_reset_user, out:output_bool_Conv},
-    transaction_create:  {args: [cnvStr, cnvStr, cnvInt, cnvInt, cnvInt,cnvStr, cnvInt], fn: transaction_create, out:output_object_Conv},
+    transaction_create:  {args: [cnvStr, cnvStr, cnvInt, cnvInt, cnvDouble, cnvStr, cnvInt], fn: transaction_create, out:output_object_Conv},
     transaction_delete:  {args: [cnvStr, cnvStr, cnvInt], fn: transaction_delete, out:output_bool_Conv},
     transactions_get_of:  {args: [cnvStr, cnvStr], fn: transactions_get_of, out:output_list_Conv},
     transactions_get_in:  {args: [cnvStr, cnvStr, cnvInt], fn: transactions_get_in, out:output_list_Conv},

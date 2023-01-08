@@ -15,14 +15,16 @@ const requestListener = function (req, res) {
 
 app.get("", (req, res)=>res.end(testHTML))
 const postListener = function (req, res) {
-    var inp = req.url;
-    inp = decodeURI(inp);
-    console.log(inp)
-    d = inp.split("?")[1].split("&")
+	console.log("IMAGE UPLOAD: "+req.body['username']+"_"+req.body['password']+"_"+req.body['id'])
     try {
-        api.upload_file(d[0], d[1], d[2], req.files["image"]["data"], c=>{
+        api.upload_file(
+		req.body['username'] || '',
+		req.body['password'] || '',
+		req.body['id'] || -1, 
+		req.files["image"]["data"], 
+		c=>{
             console.log(c)
-            res.end("{success:true, id:"+c+"}")
+            res.end("{\"success\":true, \"id\":"+c+"}")
         })
     } catch(e) {
         console.log(e);
