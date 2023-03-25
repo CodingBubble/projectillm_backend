@@ -3,5 +3,6 @@
 	"user": "projectillm",
 	"password": "jM5]e7rp@7",
 	"db": "projectillm",
-	"msg_load_num": 20
+	"msg_load_num": 20,
+	"charset": "UTF8MB4_GENERAL_CI"
 }
