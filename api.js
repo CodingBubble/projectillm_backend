@@ -117,9 +117,18 @@ var con = mysql.createConnection(settings);
 
 con.connect(function(err) {
 if (err) throw err; 
-con.query("USE projectillm", function (err, result) {
+con.query("USE" + settings["db"], function (err, result) {
     if (err) throw err;
-    console.log("Connected!");
+	con.query(
+        "SET character_set_client='utf8mb4';"
+            + "SET character_set_connection='utf8mb4';"
+            + "SET character_set_results='utf8mb4';"
+            + "SET NAMES utf8mb4;",
+        ()=>{
+			console.log("Connected!");
+		}
+    );
+
 
     //vote_create("Jakob", "Test1234", 26, "TestPoll", console.log)
     //event_load_votes("Jakob", "Test1234", 26, console.log)
