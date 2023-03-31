@@ -69,7 +69,7 @@ Args:
 
 result: Bool: true if successful, else false
 
-### __user_change_password:
+### user_change_password:
 Deletes the account of a User 
 
 Args:
@@ -77,3 +77,33 @@ Args:
 2. Password of the User [String]
 
 result: Bool: true if successful, else false
+
+
+### user_get_groups:
+Returns all groups a given User is a member of 
+
+Args:
+1. Name of the User [String]
+2. Password of the User [String]
+
+result: Array of Objects: List of Groups
+
+
+### user_get_groups:
+Adds a User to a Group via an Invitation Code
+
+Args:
+1. Name of the User [String]
+2. Password of the User [String]
+2. Invitation Group [String]
+
+result: Bool: true if successful, else false
+
+### user_get_all_active_joined_events:
+Returns all active events a given User has joined
+
+Args:
+1. Name of the User [String]
+2. Password of the User [String]
+
+result: Array of Objects: List of Events
