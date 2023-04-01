@@ -65,7 +65,6 @@ exports.api_connector = {
     group_msg_delete:  {args: [cnvStr, cnvStr, cnvInt], fn: group_msg_delete, out:output_bool_Conv},
     group_get_events_active:  {args: [cnvStr, cnvStr, cnvInt], fn: group_get_events_active, out:output_list_Conv},
     group_get_events_achieved: {args: [cnvStr, cnvStr, cnvInt], fn: group_get_events_achieved, out:output_list_Conv},
-    group_msg_delete:  {args: [cnvStr, cnvStr, cnvInt], fn: group_msg_delete, out:output_bool_Conv},
     event_create:  {args: [cnvStr, cnvStr, cnvInt, cnvStr, cnvStr, cnvInt], fn: event_create, out:output_object_Conv},
     event_update:  {args: [cnvStr, cnvStr, cnvInt, cnvStr, cnvStr, cnvInt], fn: event_update, out:output_bool_Conv},
     event_delete:  {args: [cnvStr, cnvStr, cnvInt], fn: event_delete, out:output_bool_Conv},

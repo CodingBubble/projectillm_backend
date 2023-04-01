@@ -192,7 +192,7 @@ Loads all Users that are a member of a specified Group
 Args:
 1. Name of the executing user[String]
 2. Password of the executing user [String]
-3. Id of the Group to Change [int]
+3. Id of the Group [int]
 
 result: List of Objects: Users that are member of the Group
 
@@ -202,7 +202,7 @@ Loads all Events that are currently active
 Args:
 1. Name of the executing user[String]
 2. Password of the executing user [String]
-3. Id of the Group to Change [int]
+3. Id of the Group [int]
 
 result: List of Objects: Events that are currently active
 
@@ -212,6 +212,196 @@ Loads all Events that are no longer active
 Args:
 1. Name of the executing user[String]
 2. Password of the executing user [String]
-3. Id of the Group to Change [int]
+3. Id of the Group [int]
 
 result: List of Objects: Events that are no longer active
+
+### group_load_msgs:
+Loads all Messages of a Group-Chat
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Group [int]
+
+result: List of Objects: Messages
+
+### group_load_msgs_gen:
+Loads all Messages of a Group-Chat Generative in Batches of 20
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Group [int]
+4. Batch number [int]
+
+result: List of Objects: Messages
+
+### group_msg_send:
+Sends a Message into the Group Chat
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Group [int]
+4. Message [String]
+
+result: Bool: true if successful
+
+### group_msg_delete:
+Deletes a Message in a Group Chat
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Message [int]
+
+result: Bool: true if successful
+
+### event_create:
+Creates a new Event
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Group the Event should be Created in
+4. Title of the new Group [String]
+5. Description of the new Group [String]
+6. Time of the Event in millies [int]
+
+result: Object: of the newly created Event
+
+### event_leave:
+Removes the executing user from an Event
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Group Id [int]
+
+result: Bool: true if successful
+
+### event_join:
+Makes a User join an Event
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+4. Event Id [int]
+
+result: Bool: true if successful
+
+### event_update:
+Updates title, description and Tine of an Event > [Only the creator of the Event can execute this]
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Event to Change [int]
+4. New title of the Event [String]
+5. New Description of the Event [String]
+6. New Time of the Event [int]
+
+result: Bool: true if successful
+
+### event_delete:
+Deletes an Event  > [Only the creator of the Event can execute this]
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Event to Delete [int]
+
+result: Object: true if successful
+
+### event_get_members:
+Loads all Users that joined of a specified Event
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Event [int]
+
+result: List of Objects: Users that are member of the Event
+
+### event_load_msgs:
+Loads all Messages of an Event-Chat
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Event [int]
+
+result: List of Objects: Messages
+
+### event_load_msgs_gen:
+Loads all Messages of an Event-Chat Generative in Batches of 20
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Event [int]
+4. Batch number [int]
+
+result: List of Objects: Messages
+
+### event_msg_send:
+Sends a Message into the Event Chat
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Message [String]
+
+result: Bool: true if successful
+
+### event_msg_delete:
+Deletes a Message in an Event-Chat
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Message [int]
+
+result: Bool: true if successful
+
+### event_load_announcements:
+Loads all Announcements of an Event-Chat
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Event [int]
+
+result: List of Objects: Announcements
+
+### event_load_announcements_gen:
+Loads all Announcements of an Event-Chat Generative in Batches of 20
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Event [int]
+4. Batch number [int]
+
+result: List of Objects: Announcements
+
+### event_announcement_send:
+Sends an Announcement into the Event Chat > [Only the creator of the Event can execute this]
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Message [String]
+
+result: Bool: true if successful
+
+### event_announcement_delete:
+Deletes an Announcement in an Event-Chat > [Only the creator of the Event can execute this]
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Announcement [int]
+
+result: Bool: true if successful
