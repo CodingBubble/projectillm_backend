@@ -258,6 +258,8 @@ Args:
 
 result: Bool: true if successful
 
+## Event Commands
+
 ### event_create:
 Creates a new Event
 
@@ -407,7 +409,7 @@ Args:
 result: Bool: true if successful
 
 
-## Poll/Voting Functions
+## Event Poll/Voting Commands
 
 ### vote_create:
 Creates a new Vote > [Only the creator of the Event can execute this]
