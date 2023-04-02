@@ -184,7 +184,7 @@ Args:
 2. Password of the executing user [String]
 3. Id of the Group to Delete [int]
 
-result: Object: true if successful
+result: Bool: true if successful
 
 ### group_get_members:
 Loads all Users that are a member of a specified Group
@@ -265,8 +265,8 @@ Args:
 1. Name of the executing user[String]
 2. Password of the executing user [String]
 3. Id of the Group the Event should be Created in
-4. Title of the new Group [String]
-5. Description of the new Group [String]
+4. Title of the new Event [String]
+5. Description of the new Event [String]
 6. Time of the Event in millies [int]
 
 result: Object: of the newly created Event
@@ -292,7 +292,7 @@ Args:
 result: Bool: true if successful
 
 ### event_update:
-Updates title, description and Tine of an Event > [Only the creator of the Event can execute this]
+Updates title, description and Time of an Event > [Only the creator of the Event can execute this]
 
 Args:
 1. Name of the executing user[String]
@@ -312,7 +312,7 @@ Args:
 2. Password of the executing user [String]
 3. Id of the Event to Delete [int]
 
-result: Object: true if successful
+result: Bool: true if successful
 
 ### event_get_members:
 Loads all Users that joined of a specified Event
@@ -403,5 +403,132 @@ Args:
 1. Name of the executing user[String]
 2. Password of the executing user [String]
 3. Id of the Announcement [int]
+
+result: Bool: true if successful
+
+
+## Poll/Voting Functions
+
+### vote_create:
+Creates a new Vote > [Only the creator of the Event can execute this]
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Event the Vote should be created in
+4. Title of the new Vote [String]
+
+result: Object: of the newly created Vote
+
+### vote_update:
+Updates the title of a Vote > [Only the creator of the Event can execute this]
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Vote to Change [int]
+4. New title of the Vote [String]
+
+result: Bool: true if successful
+
+### vote_delete:
+Deletes a Vote  > [Only the creator of the Event can execute this]
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Vote to Delete [int]
+
+result: Bool: true if successful
+
+### vote_get_count:
+Fetches the Amount of Users that took part in a Vote
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Vote [int]
+
+result: Int: Number of Users
+
+### vote_load_options:
+Loads all Options in a Vote
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Vote [int]
+
+result: List of Objects: Options
+
+### vote_user_get_votes:
+Loads all Options the executing User took in a Vote
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Vote [int]
+
+result: List of Objects: Options
+
+### vote_option_create:
+Creates a new Vote Option > [Only the creator of the Event can execute this]
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Event the Vote should be created in
+4. Title of the new Option [String]
+
+result: Object: of the newly created Vote Option
+
+### vote_option_update:
+Updates the title of a Vote Option > [Only the creator of the Event can execute this]
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Vote to Change [int]
+4. New title of the Option [String]
+
+result: Bool: true if successful
+
+### vote_option_delete:
+Deletes a Vote Option > [Only the creator of the Event can execute this]
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Vote to Delete [int]
+
+result: Bool: true if successful
+
+### vote_option_get_count:
+Fetches the Amount of Users that voted for an Option
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Vote Option [int]
+
+result: Int: Number of Users
+
+### vote_user_add_vote:
+Adds to a Vote to a Vote Option as the executing User
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Vote Option [int]
+
+result: Bool: true if successful
+
+### vote_user_add_vote:
+Removes to a Vote from a Vote Option as the executing User
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Vote Option [int]
 
 result: Bool: true if successful
