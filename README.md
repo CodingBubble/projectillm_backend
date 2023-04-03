@@ -258,6 +258,112 @@ Args:
 
 result: Bool: true if successful
 
+## Group Files / Images Commands
+
+### Uploading a File
+In Order to Upload a File, a Post requests needs to be sent to the Image Server (Default Port 8001). The Post Arguments need to be:
+username: Username of the executing User
+password: Password of the executing User
+id: ID of the Group the Image should be send to 
+
+** returns Json Of Success an the ID of the newly Uploaded file **
+
+### delete_file
+Deletes a file from the Group Storage
+1. Name of the executing user [String]
+2. Password of the executing user [String]
+3. Id of the File [int]
+
+result: Bool: true if successful
+
+### access_file
+Deletes a file from the Group Storage
+1. Name of the executing user [String]
+2. Password of the executing user [String]
+3. Id of the File [int]
+
+**returns an Image File**
+
+
+## Group Transaction Commands
+
+### transaction_create:
+Creates a new Transmission
+
+Args:
+1. Name of the executing user [String]
+2. Password of the executing user [String]
+3. Id of the User the Transaction comes From [int]
+4. Id of the User the Transaction goes to [int]
+5. Amount of Money [Double]
+6. Title of the new Item [String]
+7. Id of the Group the Transmission should be created in
+
+result: Object: of the newly created Transaction
+
+### transaction_delete:
+Deletes a Transmission
+
+Args:
+1. Name of the executing user [String]
+2. Password of the executing user [String]
+3. Id of the Transaction that schould be deleted [int]
+
+result: Bool: true if successful
+
+### transactions_get_of
+Loads all Transactions of a the executing User in all Groups
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+
+result: List of Objects: List of the Transactions
+
+### transactions_get_in
+Loads all Transactions in a specified Group
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Group [int]
+
+result: List of Objects: List of the Transactions
+
+### transactions_get_of_in
+Loads all Transactions of a Specified User in a specified Group
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the User [int]
+4. Id of the Group [int]
+
+result: List of Objects: List of the Transactions
+
+### transactions_get_between
+Loads all Transactions of the executing Userr with the specified User
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the other User [int]
+
+result: List of Objects: List of the Transactions
+
+### transactions_get_between_in
+Loads all Transactions of two specified Users in a specified Group
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the first User [int]
+4. Id of the second User [int]
+5. Id of the Group
+
+result: List of Objects: List of the Transactions
+
+
 ## Event Commands
 
 ### event_create:
@@ -411,6 +517,16 @@ result: Bool: true if successful
 
 ## Event Poll/Voting Commands
 
+### event_load_votes:
+Loads all Votes/Polls in an Event
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Event [int]
+
+result: List of Objects: Polls
+
 ### vote_create:
 Creates a new Vote > [Only the creator of the Event can execute this]
 
@@ -525,12 +641,67 @@ Args:
 
 result: Bool: true if successful
 
-### vote_user_add_vote:
+### vote_user_remove_vote:
 Removes to a Vote from a Vote Option as the executing User
 
 Args:
 1. Name of the executing user[String]
 2. Password of the executing user [String]
 3. Id of the Vote Option [int]
+
+result: Bool: true if successful
+
+
+## Event Shopping List Commands 
+
+### event_list_add_item:
+Loads all Items in the Shopping List of an Event
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Event the Item should be created in
+4. Title of the new Item [String]
+
+result: List of Objects: List of the all List Item on a Shopping List in an Event
+
+### event_list_add_item:
+Creates a new Shopping List Item > [Only the creator of the Event can execute this]
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Event the Item should be created in
+4. Title of the new Item [String]
+
+result: Object: of the newly created List Item
+
+### event_list_remove_item:
+Deletes a Shopping List Item > [Only the creator of the Event can execute this]
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the Item to Delete [int]
+
+result: Bool: true if successful
+
+### event_list_set_user:
+Adds a User to bring a specified List Item
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the List Item [int]
+
+result: Bool: true if successful
+
+### event_list_reset_user:
+Removes to User to bring a specified Item > [Only the User that currently brings the Item can execute this]
+
+Args:
+1. Name of the executing user[String]
+2. Password of the executing user [String]
+3. Id of the List Item [int]
 
 result: Bool: true if successful
